@@ -5,7 +5,7 @@ let products = [
     { name: 'Lash Slick', description: 'Film form mascara', price: 100, image: 'glossier-makeup-lashslick-black-01.avif' },
     { name: 'Lip Line', description: 'Enhancing pencil', price: 90, image: 'glossier-carousel-lipline-hold-01.avif' },
     { name: 'Cloud Paint Blush', description: 'Seamless cheek color', price: 90, image: 'glossier-cloud-paint-soar-carousel-01.avif' },
-    { name: 'Monochromes', description: 'Essential eyeshadow trio', price: 110, image: 'glossier-cloud-paint-soar-carousel-01.avif' }
+    { name: 'Monochromes', description: 'Essential eyeshadow trio', price: 110, image: 'glossier-monochromes-clay-carousel-01.avif' }
 ];
 
 // Customer: Add to cart
