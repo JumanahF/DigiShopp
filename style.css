@@ -45,8 +45,8 @@ header {
 
 section {
     padding: 100px 200px;
-    background-color: #E9DFF2; /* Keep the existing color */
-    text-align: center; /* Center text for all sections */
+    background-color: #E9DFF2;
+    text-align: center;
 }
 
 .main h2 {
@@ -55,40 +55,26 @@ section {
     font-weight: bold;
 }
 
-.main h3 {
-    color: #222059;
-    font-size: 1.2em;
-    font-weight: 600;
-    margin-top: 10px;
-}
-
-.products {
-    display: flex; /* Use flexbox for centering */
-    flex-direction: column; /* Arrange items vertically */
-    align-items: center; /* Center horizontally */
-    padding: 20px;
-}
-
 .title {
-    margin-bottom: 20px; /* Space below the title */
-    color: #614ea6; /* Keep the title color */
+    margin-bottom: 20px;
+    color: #614ea6;
 }
 
 .content {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    justify-items: center; /* Center items in the columns */
+    justify-items: center;
     padding: 20px;
-    max-width: 800px; /* Control grid width */
-    width: 100%; /* Full width */
+    max-width: 800px;
+    width: 100%;
 }
 
 .product-card {
-    background-color: #fff; /* Keeping the product cards white for contrast */
+    background-color: #fff;
     border: 1px solid #fff;
     min-height: 14em;
-    width: 100%; /* Use full width of the grid */
+    width: 100%;
     overflow: hidden;
     border-radius: 10px;
     padding: 20px;
@@ -102,92 +88,9 @@ section {
     margin-bottom: 10px;
 }
 
-.product-card h3 {
-    color: #222059;
-}
-
-.product-card p {
-    color: #614ea6;
-}
-
-.product-card button {
-    background-color: #a891d9;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.product-card button:hover {
-    background-color: #614ea6;
-}
-
-.cart {
+.cart, .admin {
     padding: 50px 200px;
-    text-align: center; /* Center the cart */
-    background-color: #fff;
-    border-radius: 10px;
-    max-width: 500px;
-    margin: 0 auto; /* Center the cart */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.cart h2 {
-    color: #614ea6;
     text-align: center;
-}
-
-.admin {
-    padding: 50px 200px;
-}
-
-.admin h2 {
-    color: #614ea6;
-    text-align: center;
-}
-
-#adminForm {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: auto;
-}
-
-#adminForm input, #adminForm button {
-    margin: 10px 0;
-}
-
-#productList {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    text-align: left;
-    max-width: 600px;
-    margin: 0 auto; /* Center the product list */
-}
-
-#productList li {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    list-style-type: none;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-#productList li button {
-    background-color: #f56a6a;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-#productList li button:hover {
-    background-color: #e63e3e;
 }
 
 .footer {
@@ -201,3 +104,5 @@ section {
     font-size: 1em;
     font-weight: 600;
 }
+
+#adminArea { display: none; } /* Admin section hidden by default */
