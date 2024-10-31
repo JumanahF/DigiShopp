@@ -1,162 +1,125 @@
-let cart = JSON.parse(localStorage.getItem('cart')) || [];  // Cart uses localStorage
-
-// Global product list including initial products
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let products = [
-    { name: 'Lash Slick', description: 'Film form mascara', price: 100, image: 'glossier-makeup-lashslick-black-01.avif' },
-    { name: 'Lip Line', description: 'Enhancing pencil', price: 90, image: 'glossier-carousel-lipline-hold-01.avif' },
-    { name: 'Cloud Paint Blush', description: 'Seamless cheek color', price: 90, image: 'glossier-cloud-paint-soar-carousel-01.avif' },
-    { name: 'Monochromes', description: 'Essential eyeshadow trio', price: 110, image: 'glossier-monochromes-clay-carousel-01.avif' }
+    { name: 'Lash Slick', description: 'Film form mascara', price: 100, image: 'images/glossier-makeup-lashslick-black-01.avif' },
+    { name: 'Lip Line', description: 'Enhancing pencil', price: 90, image: 'images/glossier-carousel-lipline-hold-01.avif' },
+    { name: 'Cloud Paint Blush', description: 'Seamless cheek color', price: 90, image: 'images/glossier-cloud-paint-soar-carousel-01.avif' },
+    { name: 'Monochromes', description: 'Essential eyeshadow trio', price: 110, image: 'images/glossier-monochromes-clay-carousel-01.avif' }
 ];
 
-// Customer: Add to cart
-function addToCart(productName, price) {
-    let existingProduct = cart.find(function(item) {
-        return item.name === productName;
-    });
-
-    if (existingProduct) {
-        existingProduct.quantity++;
+function authenticateAdmin() {
+    const password = prompt("Enter Admin Password:");
+    if (password === "123") {
+        document.getElementById("adminArea").style.display = "block";
+        alert("Welcome, Admin!");
     } else {
-        cart.push({ name: productName, price: price, quantity: 1 });
+        alert("Incorrect password!");
     }
-
-    localStorage.setItem('cart', JSON.stringify(cart));  // Store cart in localStorage
-    updateCartDisplay();  // Update the cart display
 }
 
-// Customer: Update cart display
+function addToCart(productName, price) {
+    let existingProduct = cart.find(item => item.name === productName);
+    existingProduct ? existingProduct.quantity++ : cart.push({ name: productName, price, quantity: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartDisplay();
+}
+
 function updateCartDisplay() {
     const cartElement = document.getElementById('cartDetails');
-    let cartHTML = '';
+    let cartHTML = cart.length > 0 ? '<ul>' : '<p>No items in your cart.</p>';
 
     if (cart.length > 0) {
-        cartHTML = '<ul>';
-        cart.forEach(function(item) {
-            cartHTML += '<li>' + item.name + ' - ' + item.price + ' (x' + item.quantity + ')'
-                + '<button onclick="removeFromCart(\'' + item.name + '\')">Remove</button>'
-                + '<button onclick="updateQuantity(\'' + item.name + '\', -1)">-</button>'
-                + '<button onclick="updateQuantity(\'' + item.name + '\', 1)">+</button>'
-                + '</li>';
+        cart.forEach(item => {
+            cartHTML += `<li>${item.name} - ${item.price} (x${item.quantity})
+                <button onclick="removeFromCart('${item.name}')">Remove</button>
+                <button onclick="updateQuantity('${item.name}', -1)">-</button>
+                <button onclick="updateQuantity('${item.name}', 1)">+</button></li>`;
         });
-        cartHTML += '</ul>';
-        cartHTML += '<p>Total: ' + calculateTotal() + '</p>';
-    } else {
-        cartHTML = '<p>No items in your cart.</p>';
+        cartHTML += '</ul><p>Total: ' + calculateTotal() + '</p>';
     }
 
     cartElement.innerHTML = cartHTML;
     document.getElementById('cartSummary').textContent = 'Items: ' + cart.length + ' | Total: ' + calculateTotal();
 }
 
-// Function to calculate the total price of items in the cart
 function calculateTotal() {
-    return cart.reduce(function(total, item) {
-        return total + (item.price * item.quantity);
-    }, 0);
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
 }
 
-// Customer: Remove an item from the cart
 function removeFromCart(productName) {
-    cart = cart.filter(function(item) {
-        return item.name !== productName;
-    });
-    localStorage.setItem('cart', JSON.stringify(cart));  // Update localStorage
-    updateCartDisplay();  // Update the cart display
+    cart = cart.filter(item => item.name !== productName);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartDisplay();
 }
 
-// Customer: Update the quantity of an item in the cart
 function updateQuantity(productName, change) {
-    const product = cart.find(function(item) {
-        return item.name === productName;
-    });
+    const product = cart.find(item => item.name === productName);
     if (product) {
         product.quantity += change;
-        if (product.quantity <= 0) {
-            removeFromCart(productName);  // Remove item if quantity is 0
-        } else {
-            localStorage.setItem('cart', JSON.stringify(cart));  // Update localStorage
-            updateCartDisplay();  // Update the cart display
-        }
+        if (product.quantity <= 0) removeFromCart(productName);
+        else localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartDisplay();
     }
 }
 
-// Customer: Checkout process
 function checkout() {
-    if (cart.length === 0) {
-        alert('Your cart is empty.');
-    } else {
+    if (cart.length === 0) alert('Your cart is empty.');
+    else {
         const total = calculateTotal();
         if (confirm('Total Price: ' + total + '. Confirm your purchase?')) {
             alert('Thank you for your purchase!');
-            cart = [];  // Clear the cart after checkout
-            localStorage.removeItem('cart');  // Clear the cart from localStorage
-            updateCartDisplay();  // Update the cart display
+            cart = [];
+            localStorage.removeItem('cart');
+            updateCartDisplay();
         }
     }
 }
 
-// Admin: Add a new product
 function addProduct() {
     const productName = document.getElementById('productName').value;
     const productDescription = document.getElementById('productDescription').value;
     const productPrice = parseFloat(document.getElementById('productPrice').value);
-    const productImage = document.getElementById('productImage').value;  // Get the image URL from the form
+    const productImage = document.getElementById('productImage').value;
 
     if (productName && productDescription && productImage && !isNaN(productPrice) && productPrice > 0) {
         const newProduct = { name: productName, description: productDescription, price: productPrice, image: productImage };
-        products.push(newProduct);  // Add to global products array
-        updateProductList();  // Refresh the product list display
-        displayProducts();  // Refresh the displayed products
-        alert(productName + ' has been added.');
-    } else {
-        alert('Invalid product details.');
-    }
+        products.push(newProduct);
+        updateProductList();
+        displayProducts();
+        alert(`${productName} has been added.`);
+    } else alert('Invalid product details.');
 }
 
-// Admin: Update the product list display
 function updateProductList() {
     const productListElement = document.getElementById('productList');
-    productListElement.innerHTML = '';  // Clear existing products
-
-    products.forEach(function(product, index) {
-        const productHTML = '<li>' + product.name + ' - ' + product.price
-            + '<button onclick="removeProduct(' + index + ')">Remove</button></li>';
-        productListElement.innerHTML += productHTML; // Add each product to the list
+    productListElement.innerHTML = '';
+    products.forEach((product, index) => {
+        productListElement.innerHTML += `<li>${product.name} - ${product.price}
+            <button onclick="removeProduct(${index})">Remove</button></li>`;
     });
 }
 
-// Display all products in the "Our Products" section
 function displayProducts() {
     const productContentElement = document.getElementById('productContent');
-    productContentElement.innerHTML = '';  // Clear existing product cards
-
-    products.forEach(function(product) {
-        const productHTML = '<div class="product-card">'
-            + '<img src="' + product.image + '" alt="' + product.name + '">'
-            + '<h3>' + product.name + '</h3>'
-            + '<p>' + product.description + '</p>'
-            + '<p>Price: ' + product.price + '</p>'
-            + '<button onclick="addToCart(\'' + product.name + '\', ' + product.price + ')">Add to Cart</button>'
-            + '</div>';
-        productContentElement.innerHTML += productHTML; // Add each product card to the section
+    productContentElement.innerHTML = '';
+    products.forEach(product => {
+        productContentElement.innerHTML += `<div class="product-card">
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p>Price: ${product.price} SAR</p>
+            <button onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+        </div>`;
     });
 }
 
-// Admin: Remove a product from the list
 function removeProduct(index) {
-    products.splice(index, 1);  // Remove the product at the specified index
-    updateProductList();  // Refresh the product list display
-    displayProducts();  // Refresh the displayed products
-}
-
-// Initial display of products on page load
-function init() {
-    displayProducts();
+    products.splice(index, 1);
     updateProductList();
+    displayProducts();
 }
 
-// Call init on page load
 window.onload = function() {
     updateCartDisplay();
-    init();  // Initialize product display
+    displayProducts();
+    updateProductList();
 };
