@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DigiShop System</title>
+    <title>Static Online Shopping System</title>
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body onload="updateCartDisplay(); updateProductList();">
@@ -15,7 +13,7 @@
         <a href="#cart">Cart</a>
         <a href="#admin">Admin</a>
     </nav>
-    <div id="cartSummary">Items: 0 | Total: 0</div>
+    <div id="cartSummary">Items: 0 | Total: 0 SAR</div>
 </header>
 
 <section class="main">
@@ -27,36 +25,7 @@
 
 <section class="products" id="products">
     <h2 class="title">Our Products</h2>
-    <div class="content" id="productContent">
-        <div class="product-card">
-            <img src="images/glossier-makeup-lashslick-black-01.avif" alt="Lash Slick">
-            <h3>Lash Slick</h3>
-            <p>Film form mascara</p>
-            <p>Price: 100 SAR</p>
-            <button onclick="addToCart('Lash Slick', 100)">Add to Cart</button>
-        </div>
-        <div class="product-card">
-            <img src="images/glossier-carousel-lipline-hold-01.avif" alt="Lip Line">
-            <h3>Lip Line</h3>
-            <p>Enhancing pencil</p>
-            <p>Price: 90 SAR</p>
-            <button onclick="addToCart('Lip Line', 90)">Add to Cart</button>
-        </div>
-        <div class="product-card">
-            <img src="images/glossier-cloud-paint-soar-carousel-01.avif" alt="Cloud Paint Blush">
-            <h3>Cloud Paint Blush</h3>
-            <p>Seamless cheek color</p>
-            <p>Price: 110 SAR</p>
-            <button onclick="addToCart('Cloud Paint Blush', 110)">Add to Cart</button>
-        </div>
-        <div class="product-card">
-            <img src="images/glossier-monochromes-clay-carousel-01.avif" alt="Monochromes">
-            <h3>Monochromes</h3>
-            <p>Essential eyeshadow trio</p>
-            <p>Price: 110 SAR</p>
-            <button onclick="addToCart('Monochromes', 110)">Add to Cart</button>
-        </div>
-    </div>
+    <div class="content" id="productContent"></div>
 </section>
 
 <section class="cart" id="cart">
@@ -69,23 +38,20 @@
 
 <section class="admin" id="admin">
     <h2 class="title">Admin Panel</h2>
-    <button onclick="authenticateAdmin()">Login as Admin</button>
-    <div id="adminArea" style="display:none;">
-        <form id="adminForm">
-            <label for="productName">Product Name:</label>
-            <input type="text" id="productName" required>
-            <label for="productDescription">Product Description:</label>
-            <input type="text" id="productDescription" required>
-            <label for="productPrice">Price:</label>
-            <input type="number" id="productPrice" required>
-            <label for="productImage">Product Image URL:</label>
-            <input type="text" id="productImage" required>
-            <button type="button" onclick="addProduct()">Add Product</button>
-        </form>
-        <div id="adminProductList">
-            <h3>Product List</h3>
-            <ul id="productList"></ul>
-        </div>
+    <form id="adminForm">
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" required>
+        <label for="productDescription">Product Description:</label>
+        <input type="text" id="productDescription" required>
+        <label for="productPrice">Price:</label>
+        <input type="number" id="productPrice" required>
+        <label for="productImage">Product Image:</label>
+        <input type="file" id="productImage" accept="image/*" required>
+        <button type="button" onclick="adminAuthenticate()">Add Product</button>
+    </form>
+    <div id="adminProductList">
+        <h3>Product List</h3>
+        <ul id="productList"></ul>
     </div>
 </section>
 
